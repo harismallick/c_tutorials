@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+// NOTE: In C, you can only compare two elements at a time.
+// a == b is a valid boolean check. But a == b == c is not!
+// To compare 3 items or more, must compare two at a time and combine with the && logic
+// eg: a == b && a == c to achieve a == b == c
+
 int main() {
     // && - For logical AND to check if multiple conditions are true
 

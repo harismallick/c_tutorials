@@ -14,6 +14,10 @@ Some advantages of pointers include:
 */
 // The convention for declaring a pointer is to add and asterisk in front of the variable name, and capitalise the first letter.
 
+// Important info about use of pointers in a 2D and 3D array:
+// https://www.geeksforgeeks.org/pointer-array-array-pointer/ 
+// To move the pointer to a specific memory address in a 2D/3D array, pointer arithmetic must be done.
+
 void age_print_from_pointer(int *pAge) {
     printf("You are %d years old.\n", *pAge);
 }
