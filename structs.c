@@ -20,6 +20,17 @@ typedef struct {
     float gpa;
 } StudentGrade;
 
+struct Coordinates {
+    int x;
+    int y;
+};
+
+// declare functions that use or manipulate structs AFTER the struct declaration.
+// While arrays are passed by reference to functions, structs are passed by value!
+// Therefore, modifying a struct variable in the context of a function will not change the original declaration.
+// When passing a struct to a function, the original struct is copied in the memory stack for the function call.
+
+
 StudentGrade createStudent(char* name, float gpa);
 void printArray(StudentGrade* students, int arrSize);
 
@@ -48,6 +59,16 @@ int main() {
     StudentGrade studentArr[] = {student1, student2, student3, student4};
     int arrSize = sizeof(studentArr)/sizeof(studentArr[0]);
     printArray(studentArr, arrSize);
+
+    // Alternative ways to declare a struct:
+    struct Coordinates c1 = {5,4}; // This will assign variables in the order in which they are declared in the struct
+    struct Coordinates c2 = {   // This method will assign specific value to the defined variable, in whichever order they're written.
+        .y = 7,
+        .x = 4
+    };
+
+    printf("(%d, %d)\n", c1.x, c1.y);
+    printf("(%d, %d)\n", c2.x, c2.y);
 
     return 0;
 }
