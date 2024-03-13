@@ -12,6 +12,8 @@ void stringArray();
 
 int main() {
     // Initialising the array if all the elements are known
+    // In this case, we do not need to declare a size for the integer array.
+    // C compiler will be able to determine that based on the number of elements passed in the assignment.
     int numbers[] = {1,2,3,4,5};
     printf("%d", numbers[2]);
     printf("\n");
