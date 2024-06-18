@@ -146,3 +146,61 @@ if (!valid) <br>
 rather than: <br>
 if (valid == 0)
 
+Type conversion:
+- In an operation between an integer and a float. the integer is always typecasted to a float.
+- The "ctype" library has many useful functions for typeconversions.
+- Converting to boolean datatype:
+    - Standard logical operators and comparison will return "1" for true and "0" for false.
+    - Some functions, like isdigit(), can return any non-zero value for true. 
+    - This is fine because the test portion of if, while, for, etc equate "true" to any non-zero number.
+- For function arguments, char and short are converted to int. Floats are converted to double.
+- Rules for converting signed data types is as follows:
+    •If either operand is long double, convert the other to long double.
+    •Otherwise, if either operand is double, convert the other to double.
+    •Otherwise, if either operand is float, convert the other to float.
+    •Otherwise, convert char and short to int.
+    •Then, if either operand is long, convert the other to long.
+- For unsigned datatypes, the value on the right side of an operand is converted to the datatype of the value on the left.
+
+Type casting:
+- This is an explicit way of converting one data type to another. The method is as follows:
+```C
+// (type) expression
+int x = 5;
+float y = 2;
+
+float z = (float) x / y;
+```
+
+Increment & decrement operators:
+- ++n performs the increment before its value is used.
+- n++ performs the increment after n's value is used.
+- Knowing this difference can lead to writing more concise code:
+```C
+int i, c;
+s[i] = c;
+++i;
+
+// This can be written as:
+s[i++] = c;
+```
+Bitwise operators:
+There are 6 bitwise operators in C:
+    &   bitwise AND
+    |   bitwise inclusive OR
+    ^   bitwise exclusive OR
+    <<  left shift
+    >>  right shift
+    ~   one's complement (unary)
+
+- These can only be applied to integral operands: char, short, int and long.
+
+#### Chapter 3 - Control Flow
+
+- It specifies the order in which computations are to be performed.
+- What is a statement?
+    - It is a sequence of code that ends with a semicolon.
+    - Multiple lines of code, or a single line of code can be a statement, depending on where the semicolon is implemented.
+    - Code encapsulated inside curly braces is known as a code block, or compound statement.
+    - The right curly brace of a code block is not to be terminated with a semicolon.
+    
