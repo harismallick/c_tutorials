@@ -204,3 +204,45 @@ There are 6 bitwise operators in C:
     - Code encapsulated inside curly braces is known as a code block, or compound statement.
     - The right curly brace of a code block is not to be terminated with a semicolon.
     
+- If else statements:
+    - An expression is evaluated as part of the if statement.
+    - The expression returns a numerical value. If the value is non-zero, its true, otherwise its false.
+    - There is no need to write an expression as: ***if (expression != 0)***.
+    - This can be shortened to ***if (expression)***.
+
+- Switch case statements:
+    - Each of the cases should be followed by a break clause. This prevents rolling through to downstream cases for evaluation.
+
+- While and for loops:
+    - Using either is a matter of personal choice in most cases.
+    - How to create an infinite loop in C:<br>***for (;;) {}***
+    - Such infinite loops reply on break or return clauses to be terminated.
+
+- Comma operator in for loops:
+    - A pair of expressions separated by a comma is evaluated left to right, and the type and value of the result are the type and value of the right operand. Thus in a for statement, it is possible to place multiple expressions in the various parts, for example to process two indices in parallel.
+    - Here's an example of its use:
+
+```C
+#include <string.h>
+/* reverse: reverse string s in place */
+void reverse(char s[])
+{
+    int c, i, j;
+    for (i = 0, j = strlen(s)-1; i < j; i++, j--) {
+        c = s[i];
+        s[i] = s[j];
+        s[j] = c;
+    }
+}
+// This can also be written as:
+
+for (i = 0, j = strlen(s)-1; i < j; i++, j--)
+    c = s[i], s[i] = s[j], s[j] = c;
+```
+
+- "goto &gt;label&lt;" statements:
+    - These should be used sparingly, only when it makes sense.
+    - One example of its use could be to exit out of the inner most loop in nested loops; to avoid using multiple break statements to exit the nest.
+
+#### Chapter 4 - Functions and Program Structure
+
