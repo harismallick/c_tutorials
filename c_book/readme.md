@@ -89,21 +89,21 @@ Constant
 - The datatype of the constant can be declared by adding specific letter suffixes.
 
 ```C
-#define NUM_INT 1234
-#define NUM_LONG -123456789L
-#define NUM_LONG_UNSIGNED 123456789L
-#define NUM_DOUBLE 123.4
-#define NUM_FLOAT 123.4F
-#define NUM_LONG_DOUBLE 123567.4678L
+    #define NUM_INT 1234
+    #define NUM_LONG -123456789L
+    #define NUM_LONG_UNSIGNED 123456789L
+    #define NUM_DOUBLE 123.4
+    #define NUM_FLOAT 123.4F
+    #define NUM_LONG_DOUBLE 123567.4678L
 
 ```
 - Character constants are declared in single quotes.
 - String constants are declared in double quotes. The compiler automatically adds '\0' at the end of a string.
 - Multiple strings next to eachother are concatenated at compile time.
 ```C
-"Hello, " "world";
-// Is the same as:
-"Hello, world";
+    "Hello, " "world";
+    // Is the same as:
+    "Hello, world";
 ```
 - This is a useful feature to breakup long strings across multiple source lines.
 
@@ -165,11 +165,11 @@ Type conversion:
 Type casting:
 - This is an explicit way of converting one data type to another. The method is as follows:
 ```C
-// (type) expression
-int x = 5;
-float y = 2;
+    // (type) expression
+    int x = 5;
+    float y = 2;
 
-float z = (float) x / y;
+    float z = (float) x / y;
 ```
 
 Increment & decrement operators:
@@ -177,12 +177,12 @@ Increment & decrement operators:
 - n++ performs the increment after n's value is used.
 - Knowing this difference can lead to writing more concise code:
 ```C
-int i, c;
-s[i] = c;
-++i;
+    int i, c;
+    s[i] = c;
+    ++i;
 
-// This can be written as:
-s[i++] = c;
+    // This can be written as:
+    s[i++] = c;
 ```
 Bitwise operators:
 There are 6 bitwise operators in C:
@@ -223,21 +223,21 @@ There are 6 bitwise operators in C:
     - Here's an example of its use:
 
 ```C
-#include <string.h>
-/* reverse: reverse string s in place */
-void reverse(char s[])
-{
-    int c, i, j;
-    for (i = 0, j = strlen(s)-1; i < j; i++, j--) {
-        c = s[i];
-        s[i] = s[j];
-        s[j] = c;
+    #include <string.h>
+    /* reverse: reverse string s in place */
+    void reverse(char s[])
+    {
+        int c, i, j;
+        for (i = 0, j = strlen(s)-1; i < j; i++, j--) {
+            c = s[i];
+            s[i] = s[j];
+            s[j] = c;
+        }
     }
-}
-// This can also be written as:
+    // This can also be written as:
 
-for (i = 0, j = strlen(s)-1; i < j; i++, j--)
-    c = s[i], s[i] = s[j], s[j] = c;
+    for (i = 0, j = strlen(s)-1; i < j; i++, j--)
+        c = s[i], s[i] = s[j], s[j] = c;
 ```
 
 - "goto &gt;label&lt;" statements:
@@ -246,3 +246,73 @@ for (i = 0, j = strlen(s)-1; i < j; i++, j--)
 
 #### Chapter 4 - Functions and Program Structure
 
+- Functions break large computing tasks into smaller ones, and enable people to build on what others have done instead of starting over from scratch.
+- Appropriate functions hide details of operation from parts of the program that don't need to know about them, thus clarifying the whole, and easing the pain of making changes.
+- For functions designed to output the index of an element (or set of elements) in an array, -1 should be used to signify that no such item was found in the array. This is because most programming laguages are 0-indexed. So if the output is a negative number, this naturally means that the searched element in not in the given array.
+- If no return type is declared for a function, ***int*** type is assume by default.
+- An empty function can be declared in C as follows:
+```C
+    function() {}
+
+// A dummy function is useful for program development.
+```
+- Communication between the functions is by arguments and values returned by the functions, and through external variables.
+- The functions can occur in any order in the source file, and the source program can be split into multiple files, so long as no function is split.
+- Typecasting can be performed in the return expression of a function. Here is an example:
+```C
+    /* atoi: convert string s to integer using atof */
+    int atoi(char s[])
+    {
+        double atof(char s[]);
+        return (int) atof(s);
+    }
+```
+###### - Standard C does not allow for nested functions.
+- Function prototype declarations can be made inside another function, but the definition must always be outside.
+- The one good use case for external variable:
+```
+    Automatic variables are internal to a function; they come into existence when the function is entered, and disappear when it is left. External variables, on the other hand, are permanent, so they can retain values from one function invocation to the next. Thus if two functions must share some data, yet neither calls the other, it is often most convenient if the shared data is kept in external variables rather than being passed in and out via arguments.
+```
+- Scope of variables and parameters in a function
+    - Any variable declared inside a function is confined to the function. Therefore, variables with the same name can be declared inside multiple functions inside the same source file.
+    - This rule holds true for function parameters as well.
+
+- Within one source file, the code is read and compiled top-to-bottom. This means that if a global variable is declared after a function, like main(), then main() will not be able to access it.
+- To access variables across the whole file, and other source files, the extern keyword must be used.
+- This will allow for global variables to be declared in one file (like the header file), and be defined/initialised in another file.
+- Difference between declaration and definition:
+    - Declaration does not allocate any memory.
+    - Definition actually assigns memory for the data type that has been declared/defined.
+    - A variable can be declared multiple times, without any issues to code execution.
+    - However, a variable or function should only be defined ***once***. Otherwise, the compiler won't know which defition of the variable to use and 'link' to.
+
+- Header files:
+    - A file containing all extern variable declarations and function prototypes.
+    - These can be imported into individual source files.
+    - For smaller projects, one header file would be sufficient. But as projects get bigger and more complex, multiple header files might be needed for better organisation.
+
+- Static Variables:
+    - If you want to ensure that certain external variables are not accessed outside their source file, then the ***static*** keyword can be used in their declaration.
+    ```C
+        static char buf[BUFSIZE];
+        static int bufp = 0;
+    ```
+    - Functions can also be declared using the static declaration. These functions will be invisible outside of their source file.
+    - Internal static variables: Variables declared inside functions can also be declared using static. What's the benefit?<br>Typically, function variables do not persist after function execution is completed. The variable initialisation is reset at every function call. However, static internal variables persist, and act like permanent internal storage.
+
+- Register Variables
+    - These are variables declared using the ***register*** reserve word.
+    - This tells the compiler that the variable in question will be used heavily, so it should be stored on a machine (CPU) register.
+    - Modern compilers are much smarter and don't need to be told that heavily used variable should be stored in CPU registers.
+    - Therefore, the use of this reserve word should typically be avoided for modern C programmes. Only exception being, when you are working on a brand new CPU, for which the compiler has not yet been optimised.
+
+- Variable initialisation:
+    - extern and static variable are guaranteed to be initialised to zero, if no explicit initialisation is done.
+    - Automatic and register variables are guaranteed to contain garbage initial values.
+    - For external and static variables, the initializer must be a constant expression; the initialization is done once, conceptionally before the program begins execution. For automatic and register variables, the initializer is not restricted to being a constant: it may be any expression involving previously defined values, even function calls.
+    - String array initialisation:
+    ```C
+    char pattern = "ould";
+    // is a shorthand for the longer but equivalent for:
+    char pattern[] = { 'o', 'u', 'l', 'd', '\0' };
+    ```
