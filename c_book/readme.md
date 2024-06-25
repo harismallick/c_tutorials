@@ -316,3 +316,68 @@ There are 6 bitwise operators in C:
     // is a shorthand for the longer but equivalent for:
     char pattern[] = { 'o', 'u', 'l', 'd', '\0' };
     ```
+###### The C Preprocessor
+
+- It is a separate first step in the compilation of C code.
+- The two most frequently used features are #include, to include the contents of a file during compilation, and #define, to replace a token by an arbitrary sequence of characters.
+- The other features of the preprocessor are:
+    - Conditional compilation
+    - Macros with arguments.
+
+- File inclusion:
+```C
+    #include <filename>
+    #include "filename"
+```
+- The preprocessor replaces the #include statements with the contents of the file(s) to be included.
+- If the file is mentioned in quotes, searching for the file typically begins where the source program was found.
+- if it is not found there, or if the name is enclosed in < and >, searching follows an implementation-defined rule to find the file.
+- Naturally, when an included file is changed, all files that depend on it must be recompiled.
+
+- Macros:
+```C
+    #define name replacement text
+```
+- Normally the replacement text is the rest of the line, but a long definition may be continued onto several lines by placing a \ at the end of each line to be continued.
+- The scope of a name defined with #define is from its point of definition to the end of the source file being compiled.
+- Substitutions are made only for tokens, and do not take place within quoted strings. For example, if YES is a defined name, there would be no substitution in printf("YES") or in YESMAN.
+- It is possible to define macros with arguments, so the replacement text is different for differnt calls of the macro:
+
+```C
+    #define max(A, B) ((A) > (B) ? (A) : (B))
+```
+- So long as the arguments are treated consistently, this macro will serve for any data type; there is no need for different kinds of max for different data types, as there would be with functions.
+- "##" is a preprocessor operator for concatenating arguments for a macro during macro expansion:
+```C
+    #define paste(front, back) front ## back
+    // so paste(name, 1) creates the token name1
+```
+- Conditional inclusion:
+    - As the name suggests, certain header files can be included during compilation based on passing certain conditions.
+    - These conditions are defined using ***#if***, ***#elif***, ***#else*** and ***#endif***.
+```C
+    #if SYSTEM == SYSV
+        #define HDR "sysv.h"
+    #elif SYSTEM == BSD
+        #define HDR "bsd.h"
+    #elif SYSTEM == MSDOS
+        #define HDR "msdos.h"
+    #else
+        #define HDR "default.h"
+    #endif
+    #include HDR
+```
+    - Conditional inclusion can be used to avoid including the same file multiple times:
+    - This is done using the ***#ifndef*** keyword, which is the same as ***#if !defined(file)***.
+```C
+    #ifndef HDR
+    #define HDR
+    /* contents of hdr.h go here */
+    #endif
+```
+
+
+#### Chapter 5 - Pointers and Arrays
+
+- A pointer is a variable that contains the address of a variable.
+- Except for the void pointer, every other pointer points to a particular datatype.
