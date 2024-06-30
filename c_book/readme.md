@@ -379,5 +379,27 @@ There are 6 bitwise operators in C:
 
 #### Chapter 5 - Pointers and Arrays
 
-- A pointer is a variable that contains the address of a variable.
+- A pointer is a variable that contains the memory address of another variable.
 - Except for the void pointer, every other pointer points to a particular datatype.
+- Each datatype occupies a specific number of bits/bytes in contiguous memory.
+- char is 1 byte, short int is 2 bytes, long int (or simply int) is 4 bytes. long long is 8 bytes.
+- A space occupied by a pointer depends on the OS and the implementation.
+- In a modern 64-bit linux machine, a pointer occupies 8 bytes, ie, 64-bits of space.
+- See [link](./pointer_sizes.c) for pointer sizes test.
+- The unary "&" operator is used to assign a memory address to a pointer.
+- The "*" is used to dereference a pointer to access the data value being stored in the memory address the pointer was pointing to.
+```C
+char c = 'C';
+char *pC = &c; // assignment
+*pC = 'A'; // dereferencing
+```
+- Pointers can only point to objects -- variables and arrays.
+- They cannot point to expressions, register variables or constants.
+- Unary operators associate right to left. This means (*p)++ with increment the value the pointer points to, while *p++ will increment the pointer itself.
+- Understanding pointer arithmetic for arrays:
+    - For an array 'a' with 'i' elements:
+        - The i-th element can be accessed by: a[i] or *(p + i).
+        - Where int *p is a pointer to the first element array 'a'.
+    - In short, an array-and-index expression is equivalent to one written as a pointer and offset.
+
+- Array names and pointers behave identically for the most part. The one key different is that an array name is NOT a variable, so a = pa and a++ are illegal operations.
