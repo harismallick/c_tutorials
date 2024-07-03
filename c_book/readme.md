@@ -403,3 +403,67 @@ char *pC = &c; // assignment
     - In short, an array-and-index expression is equivalent to one written as a pointer and offset.
 
 - Array names and pointers behave identically for the most part. The one key different is that an array name is NOT a variable, so a = pa and a++ are illegal operations.
+- Passing arrays as arugments to functions:
+    - Using strlen() function as an example:
+    ```C
+    /* strlen: return length of string s */
+    int strlen(char *s)
+    {
+        int n;
+        for (n = 0; *s != '\0', s++)
+            n++;
+        return n;
+    }
+
+    // Valid arguments for this function:
+    strlen("hello, world"); /* string constant */
+    strlen(array);  /* char array[100]; */
+    strlen(ptr);    /* char *ptr; */
+    ```
+    - Functions create local copies of pointers/variable names.
+    - So, in the scope of the function that called strlen() array++ is an illegal operation.
+    - But, s++ in strlen() is legal as *s is a pointer in the local scope of the function.
+- Declaring arrays as "char s[]" and "char *s" are functinally equivalent.
+- Memory allocation (discussed in detail in chapter 8) can be done using funcitons like alloc, malloc and calloc.
+- Each of these functions work slightly differently.
+- Alloc allocates memory as a stack, applying LIFO. Its complementary function afree() frees memory using the LIFO principle.
+- In C, zero can never be a valid memory address. So, returning 0 from memory allocation functions can be used to signal an abnormal event. In this case, the lack of heap memory.
+- We know that char and int datatypes are interchangeable in C. This is ***NOT*** the case for pointers and integers.
+- The only exception to this rule is zero. Zero can be assigned to a pointer, and a pointer can be compared to zero. More specifically, a pointer can be set to and compared to ***NULL***, defined in <stdio.h>.
+- Comparison operators on pointers:
+    - If two pointers p and q point to elements in the same array, then operators like ==, !=, <, >=, etc can be used to compare the two pointers.
+    - Example, p < q is true if p is a pointer to an earlier element in the array than q.
+    - EXCEPTION: The first memory address past the end of the array can be used for pointer arithmetic. I'm assuming for end-of-array checks.
+- Legal pointer arithmetic:
+    The valid pointer operations are assignment of pointers of the same type, adding or subtracting a pointer and an integer, subtracting or comparing two pointers to members of the same array, and assigning or comparing to zero. All other pointer arithmetic is illegal.
+- Illegal pointer arithmetic:
+    It is not legal to add two pointers, or to multiply or divide or shift or mask them, or to add float or double to them, or even, except for void *, to assign a pointer of one type to a pointer of another type without a cast.
+
+- Two pointers can be used to copy characters from one string to another. Here's the simplest string copy function using pointer arithmetic:
+    ```C
+        /* strcpy: copy t to s; pointer version 3 */
+        void strcpy(char *source, char *destination)
+        {
+        while (*destination++ = *source++)
+            ;
+        }
+    ```
+
+***Array of pointers***
+
+- Using an array of pointers to sort alphabetically a collection of strings:
+    - Algorithm:
+    ```
+    read all the lines of input
+    sort them
+    print them in order
+    ```
+    - ***Coding design tip***: it's best to divide the program into functions that match this natural division, with the main routine controlling the other functions.
+
+***Multi-dimensional arrays***
+
+- A 2D array, for example, is declared using two sets of square brackets: int arr[n][m], where n is the number of rows and m is the number of columns.
+- To pass a 2D array an a function argument, the function declaration must provide the number of columns to be passed. Number of rows is irrelevant.
+```C
+    
+```

@@ -1,6 +1,8 @@
 #include <stdio.h>
 
 void pointer_tests(void);
+char *string_copy(char *s, char *d);
+void string_copy2(char *s, char* d);
 
 int main()
 {
@@ -45,4 +47,31 @@ void pointer_tests(void)
     printf("%d\n", *(arr + 2));
     printf("%d\n", *(pArr + 2));
 
+    char source[] = "Hello world";
+    char dest[25];
+    printf("Original: %s\n", source);
+    printf("Dest start: %s\n", dest);
+    string_copy2(source, dest);
+    printf("Dest after cp: %s\n", dest);
+    
+}
+
+char *string_copy(char *s, char *d)
+{
+    char *p = d;
+    while (*s != '\0')
+    {
+        *d = *s;
+        s++;
+        d++;
+    }
+    *d = '\0';
+    return p;
+}
+
+// String copy function in 2 lines of code as in the C book:
+void string_copy2(char *s, char* d)
+{
+    while (*d++ = *s++)
+        ;
 }
