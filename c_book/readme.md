@@ -465,5 +465,24 @@ char *pC = &c; // assignment
 - A 2D array, for example, is declared using two sets of square brackets: int arr[n][m], where n is the number of rows and m is the number of columns.
 - To pass a 2D array an a function argument, the function declaration must provide the number of columns to be passed. Number of rows is irrelevant.
 ```C
-    
+    // Three ways to pass multidimensional array as argument to a function:
+
+    void func(int arr[2][13]); // declare row and column
+    void func(int arr[][13]); // declare columns only, rows are irrelavant to 2D array argument declaration
+    void func((*arr)[13]); // Pointer to an array of 13 integers
+
 ```
+- Declarations of 2D arrays like: int a[10][20] allocates contiguous memory for 200 ints. Each of the 10 subarrays can have a max of 20 elements.
+- Pointer arrays allow for the creation of dynamic 2D arrays. Declarations like: int *b[10] allocates 10 integer pointers. These integer pointers can be assigned to subarrays of varying lengths.
+- Pointer arrays are most useful for storing char-strings of varying lengths in an array.
+```C
+    char *months[] = {"Illegal Month", "Jan", "Feb", "Mar"};
+```
+
+***Command line arguments***
+
+- In the main function of a file, arguments can be passed from the command line, to alter the behaviour of the C code.
+- The two arguments are called argc and argv:
+    - argc is an integer count of the number of arguments passed.
+    - argv is an array of strings. argv is a pointer to an array of pointers.
+- printf format arguments can be expressions.
