@@ -486,3 +486,36 @@ char *pC = &c; // assignment
     - argc is an integer count of the number of arguments passed.
     - argv is an array of strings. argv is a pointer to an array of pointers.
 - printf format arguments can be expressions.
+
+***Complex declarations in C***
+
+- In order to read and interpret complex declarations, we must understand the precedence rules in C:
+    - Parentheses grouping together parts of the declaration have the highest priority.
+    - Postfix operators have the next highest level of precedence: "()" indicating a function; "[]" indicating an array; and "++" or "--" indicating increment or decrement.
+    - The prefix operators have the lowest precedence: prefix increment and decrement operators; and "*" indicating a pointer.
+    - When ever you see a complex declaration, it should be broken down to postfix format and read from left to right.
+    - To do this, solve the inner most paranthesis first, and move outwards, writing everything down from left to right.
+    - Then read in plain english to decipher the declaration.
+
+```C
+// Example declarations:
+int (*fp)();
+// Solving this using the method described above:
+// postfix left to right: fp * () int
+// Translation: fp is a pointer to a function that returns int type.
+
+void (*f[10])(int, int);
+// postfix: f [10] * (int, int) void
+// translation: f is an array of 10 pointers to a function with 2 ints as arguments, returning void.
+
+char (*(*x())[])();
+// postfix: x () * [] * () char
+// Translation: x is a function returning a pointer to an array of pointers to a function returning char type.
+
+int *(*(*arr[5])()) ()
+// postfix: arr [5] * () * () * int
+// Translation: array of 5 pointers to a function returning a pointer to a function returning a pointer to an int type.
+```
+- Complex declarations can involve function pointers.
+- Function pointers being used for callback is illustrated in this [file](./callback_func.c).
+- One thing to note about function pointers is that you cannot perform pointer arithmetic on them.

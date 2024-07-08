@@ -3,6 +3,8 @@
 void pointer_tests(void);
 char *string_copy(char *s, char *d);
 void string_copy2(char *s, char* d);
+void print_func(int x);
+double add_floats(double x, double y);
 
 int main()
 {
@@ -21,6 +23,17 @@ int main()
 
     printf("Size of char:\t%lu\n", sizeof(letter));
     pointer_tests();
+
+    void (*func_pointer)(int);
+    func_pointer = print_func;
+    // Calling a function using a pointer:
+    (*func_pointer)(5);
+
+    double (*p_add_float)(double, double) = add_floats;
+    // Don't need to dereference function pointer when calling function using pointer
+    double result = p_add_float(30.0, 40.0);
+    printf("Add float result: %0.2f\n", result);
+
     return 0;
 }
 
@@ -74,4 +87,14 @@ void string_copy2(char *s, char* d)
 {
     while (*d++ = *s++)
         ;
+}
+
+void print_func(int x)
+{
+    printf("Executing function using pointer: %d\n", x);
+}
+
+double add_floats(double x, double y)
+{
+    return x + y;
 }
