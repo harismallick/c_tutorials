@@ -3,13 +3,26 @@
 
 #define SIZE 5
 
+struct point {
+    int x;
+    int y;
+};
+
+struct rectangle {
+    struct point pt1;
+    struct point pt2;
+};
+
 void structs_example_1();
 void nested_structs();
+int point_in_rect(struct point, struct rectangle);
+void array_pointers(void);
 
 int main()
 {
     structs_example_1();
     nested_structs();
+    array_pointers();
     return 0;
 }
 
@@ -41,16 +54,6 @@ void structs_example_1()
 }
 void nested_structs()
 {
-    struct point {
-        int x;
-        int y;
-    };
-
-    struct rectangle {
-        struct point pt1;
-        struct point pt2;
-    };
-
     struct rectangle rec_1;
     rec_1.pt1.x = 5;
     rec_1.pt1.y = 5;
@@ -59,4 +62,29 @@ void nested_structs()
 
     int area = (rec_1.pt2.x - rec_1.pt1.x) * (rec_1.pt2.y - rec_1.pt1.y);
     printf("Area of rectangle: %d\n", area);
+
+    struct point point_1 = { 6, 6 };
+    struct point point_2 = { 12, 4 };
+    if (point_in_rect(point_1, rec_1) == 1)
+        printf("Point (%d, %d) is inside the rectangle.\n", point_1.x, point_1.y);
+    
+    if (point_in_rect(point_2, rec_1) == 1)
+        printf("Point (%d, %d) is inside the rectangle.\n", point_2.x, point_2.y);
+
+}
+
+int point_in_rect(struct point pt, struct rectangle rec)
+{
+    return pt.x >= rec.pt1.x && pt.x <= rec.pt2.x && pt.y >= rec.pt1.y &&
+            pt.y <= rec.pt2.y;
+}
+
+void array_pointers(void)
+{
+    int array[5] = { 1,2,3,4,5 };
+    int *low, *mid, *high;
+    low = array;
+    high = array + 5;
+    mid = low + ((high - low) / 2);
+    printf("Low: %d\tHigh: %d\tMid: %d\n", *low, *high, *mid);
 }

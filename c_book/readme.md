@@ -526,3 +526,56 @@ int *(*(*arr[5])()) ()
 - Stucts in C is a way of grouping related data together.
 - Once a struct has been defined, it can be declared, defined or instantiated like any other data type.
 - Struct definitions can be nested. See this [file](./structs.c) for example.
+- How to pass a struct or its components to a function? There are three ways:
+    1. Pass the individual components on the struct.
+    2. Pass the whole struct as an argument.
+    3. Pass a pointer to the struct.
+- Legal operations on a struct:
+    1. Copy it or assign to it as a unit.
+    2. Take its memory address.
+    3. Access its members.
+- Struct parameters, like other datatypes in C, are passed by value to functions.
+- For really large structs, to avoid creating unnecessary temp values in the function, passing a pointer to the struct is more space efficient.
+- ***sizeof***: It is a compile-time unary operator that can be used to compute the size of any object, ie, variables, arrays and structs.
+- "sizeof" can also be used to calculate the length of an array by doing:
+    ```C
+    int array[5];
+    int size = sizeof array / sizeof (array[0])
+    ```
+- "sizeof" cannot be used in guard clauses, like #if, because the preprocessor does not parse type names.
+- #define is not evaluated by the preprocessor, so its legal to define an expression with sizeof.
+
+##### Calculating the mid-point of a sorted array for binary search
+
+This problem needs to be approached differently depending on if array indices are used, or pointers.
+- If using array indices, we are accessing the values directly, so addition and subtraction are both legal operations. The middle value can be calculated by:
+```C
+    int array[5] = { 1,2,3,4,5 };
+    int low, mid, high;
+    low = array[0];
+    high = array[5];
+    mid = (low + high) / 2; // legal operation
+```
+- But when using pointers, addition of two pointers is not legal. But two pointers of the same data type can be subtracted, so the operation to calculate mid-point of array changes:
+```C
+    int array[5] = { 1,2,3,4,5 };
+    int *low, *mid, *high;
+    low = array;
+    high = array + 5;
+    mid = low + (high - low) / 2;
+
+    // (high - low) / 2 returns an integer. This integer is added to the pointer for the start of the array, to get the middle value.
+```
+- Structs can contain instances of themselves. For example, to create a binary tree, a node struct would look like this:
+```C
+    struct node {
+        char *content;
+        struct node *left;  // left child
+        struct node *right; // right child
+    };
+```
+- Type declaration with malloc:
+
+    The question of the type declaration for a function like malloc is a vexing one for any language that takes its type-checking seriously. In C, the proper method is to declare that malloc returns a pointer to void, then explicitly coerce the pointer into the desired type with a cast. malloc and related routines are declared in the standard header <stdlib.h>.
+
+    malloc return NULL if no memory is available for allocation. The memory assigned by malloc should be released for reuse by calling free().
