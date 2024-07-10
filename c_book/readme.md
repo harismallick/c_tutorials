@@ -519,3 +519,10 @@ int *(*(*arr[5])()) ()
 - Complex declarations can involve function pointers.
 - Function pointers being used for callback is illustrated in this [file](./callback_func.c).
 - One thing to note about function pointers is that you cannot perform pointer arithmetic on them.
+
+
+#### Chapter 6 - Structures
+
+- Stucts in C is a way of grouping related data together.
+- Once a struct has been defined, it can be declared, defined or instantiated like any other data type.
+- Struct definitions can be nested. See this [file](./structs.c) for example.
