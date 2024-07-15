@@ -2,6 +2,7 @@
 #include <string.h>
 
 #define SIZE 5
+#define TEST sizeof (int)
 
 struct point {
     int x;
@@ -23,6 +24,11 @@ int main()
     structs_example_1();
     nested_structs();
     array_pointers();
+    // sizeof is a compile-time unary operator/
+    // But it can be used in #define because it is not handled by the preprocessor
+    // Trying to use test in the code:
+
+    printf("TEST definition: %lu\n", TEST);
     return 0;
 }
 

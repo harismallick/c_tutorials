@@ -544,6 +544,10 @@ int *(*(*arr[5])()) ()
     ```
 - "sizeof" cannot be used in guard clauses, like #if, because the preprocessor does not parse type names.
 - #define is not evaluated by the preprocessor, so its legal to define an expression with sizeof.
+- Exact statement on page 111:
+```
+    A sizeof can not be used in a #if line, because the preprocessor does not parse type names. But the expression in the #define is not evaluated by the preprocessor, so the code here is legal.
+```
 
 ##### Calculating the mid-point of a sorted array for binary search
 
@@ -575,7 +579,96 @@ This problem needs to be approached differently depending on if array indices ar
     };
 ```
 - Type declaration with malloc:
-
+```
     The question of the type declaration for a function like malloc is a vexing one for any language that takes its type-checking seriously. In C, the proper method is to declare that malloc returns a pointer to void, then explicitly coerce the pointer into the desired type with a cast. malloc and related routines are declared in the standard header <stdlib.h>.
+```
+- This code snippet shows how to type cast the void pointer returned by malloc to the desired data type:
+```C
+    struct nlist {          /* table entry: */
+        struct nlist *next; /* next entry in chain */
+        char *name;         /* defined name */
+        char *defn;         /* replacement text */
+    };
 
+    struct nlist *np;
+    np = (struct nlist *) malloc(sizeof(*np));
+```
     malloc return NULL if no memory is available for allocation. The memory assigned by malloc should be released for reuse by calling free().
+
+- Structs are used to create node based data structures, like linked lists and trees.
+- Each node needs to contain an attribute, which is a pointer to the next node.
+- If this pointer is NULL, it signifies the end of the node-based data structure.
+- In the case of a linked list, a for loop can be used to iterate through it. The standard for loop syntax for doing this is:
+```C
+    for (ptr = head; ptr != NULL; ptr = ptr->next)
+    {
+        // code here
+    }
+```
+***Typedef***
+- It is a facility provided in C to create new datatype names.
+- It is a way to reduce verbose data type declarations to a short word.
+```C
+    struct example_1 {
+        int x;
+        char * y;
+    };
+    
+    // A struct is always declared as follows:
+    struct example_1 temp;
+
+    // Alternative is to use typedef and declare struct objects as follows:
+    typedef struct example_2 {
+        int x;
+        char * y;
+    } example_2;
+
+    // declaring an instance of this struct:
+    example_2 temp2;
+
+    // typedef to simplify a function pointer definition:
+    typedef int (*PFI) (char *, char *);
+    // initialising this pointer:
+    PFI strcmp, numcmp;
+```
+- Another advantage of typedefs are that they can be used for define data types that are machine dependent. Across different machine types (32-bit, 64-bit) and architectures (x86, ARM), only the typedef need to be changed to keep the programs functional across platforms.
+
+***Bit fields***
+- If you're trying to be space efficient, then you can access individual bits to store data in C.
+- This is done using bit fields.
+- A [video](https://www.youtube.com/watch?v=aMAM5vL7wTs) that explains how and when to use bit fields.
+
+
+#### Chapter 7 - Input and Output
+
+- Most functions needed for handling input and output from other files are defined in the <stdio.h> header file.
+- The simplest definition of a text stream is that it is a sequences of lines. A line ends with the newline character "\n". On UNIX machines, this is sufficient for create a new line and for carriage return to the start of the new line.
+- However, is Windows OS, a line needs to end with "\r\n", where backslash r is needed explicitly to cause a carriage return to the start of the new line.
+- The simplest way to read a text stream is one character at a time.
+- This is done using the "getchar()" function.
+- The file will be read until the EOF (end of file) signal, which is typically "-1" in terms of value, as characters are stored as unsigned integers.
+- A file can be "fed" into a program using the "<" operator as follows:
+```bash
+    $ program < file
+```
+- Output from one program can also be piped into another program as follows:
+```shell
+    $ program_1 | program_2
+    # This will pipe return of program 1 into program 2
+```
+- For writing output, the simplest way is one character at a time. "putchar()" is the function used to do this. 
+- It writes a character to the standard output, which is the screen by default.
+- The output can be designated to a file, indicated with the ">" symbol. The terminal command would be written as follows:
+```shell
+    $ program > output-file
+```
+
+***Location of standard header files in UNIX systems***
+
+- Standard header files, or those installed by 3rd party applications are stored in "/usr/include".
+
+- Many programs read only one input stream and write only one output stream; for such
+programs, input and output with getchar, putchar, and printf may be entirely adequate.
+- Implementing certain functions as macros helps avoid the overhead of making a function call, per character for example, in the case of string input/output.
+- Defining functions as macros is discussed further in section 8.5.
+
