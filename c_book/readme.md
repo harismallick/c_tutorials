@@ -672,3 +672,52 @@ programs, input and output with getchar, putchar, and printf may be entirely ade
 - Implementing certain functions as macros helps avoid the overhead of making a function call, per character for example, in the case of string input/output.
 - Defining functions as macros is discussed further in section 8.5.
 
+***Variadic functions***
+
+- These are functions that take a variable number of arguments.
+- The Python equivalent of *args in the function declaration is derived from this concept.
+- In C, ellipsis is used to signify a variable number of arguments can be passed to the function.
+- Unlike Python, in C, atleast one named argument is required.
+```C
+    // Variadic function declaration:
+    int variadic_func(int count, ...);
+```
+- To process the variable number of arguments, macros defined in the <stdarg.h> need to be used.
+- Type "va_list" is used to declare a variable that will refer to each argument in turn.
+- "va_start" initialises a pointer to the first unnamed argument.
+- Each call of "va_arg" returns one argument and steps the pointer to the next va_arg.
+- Finally, "va_end" performs the necessary cleanup tasks. It must be called before the program returns.
+- These properties form the basis of printf() and how it works.
+- See [input_output.c](./input_output.c) for example implementation.
+
+***scanf***
+- scanf() in the standard input analog of printf().
+```C
+    // scanf syntax:
+    int scanf(char *format, ...);
+```
+- scanf reads characters from the standard input, interprets them according to the specification in format, and stores the results through the remaining arguments.
+- The remaining arguments must be pointers, indicating where the converted input should be stored.
+- The format string may contain:
+    - Blanks or tabs, which are ___not___ ignored by scanf. All non-formatted whitespace is ignored.
+    - Ordinary characters (not %), which are expected to match the next non-white space character of the input stream.
+    - Conversion specifications, consisting of the character %, an optional assignment suppression character *, an optional number specifying a maximum field width, an optional h, l or L indicating the width of the target, and a conversion character.
+```C
+    int day, month, year;
+    scanf("%d/%d/%d", &month, &day, &year);
+```
+- scanf ignores blanks and tabs in its format string. Furthermore, it skips over white space (blanks, tabs, newlines, etc.) as it looks for input values. To read input whose format is not fixed, it is often best to read a line at a time, then pick it apart with scanf. For example, suppose we want to read lines that might contain a date in either of the forms above. Then we
+could write:
+```C
+    while (getline(line, sizeof(line)) > 0) {
+        if (sscanf(line, "%d %s %d", &day, monthname, &year) == 3)
+            printf("valid: %s\n", line); /* 25 Dec 1988 form */
+        else if (sscanf(line, "%d/%d/%d", &month, &day, &year) == 3)
+            printf("valid: %s\n", line); /* mm/dd/yy form */
+        else
+            printf("invalid: %s\n", line); /* invalid form */
+    }
+```
+- Calls to scanf can be mixed with calls to other input functions. The next call to any input function will begin by reading the first character not read by scanf.
+- scanf's usage is acceptable for int, char and floats. But for strings, it is not ideal as scanf cannot read past whitespace.
+- For reading text from stdin, fgets() is more ideal.
