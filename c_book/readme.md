@@ -721,3 +721,29 @@ could write:
 - Calls to scanf can be mixed with calls to other input functions. The next call to any input function will begin by reading the first character not read by scanf.
 - scanf's usage is acceptable for int, char and floats. But for strings, it is not ideal as scanf cannot read past whitespace.
 - For reading text from stdin, fgets() is more ideal.
+
+***File input and output***
+
+- In <stdio.h> is a struct called FILE, which is used to declare a pointer to access the contents of a file.
+- fopen() is the function used to open the file using this pointer.
+- fopen takes two arguments: the name of the file, and the mode, which indicates how the user intends to use the file.
+- There are three standard modes: 'r', 'w' and 'a' for read, write and append. To access file contents in binary form, the 'b' mode is used.
+- For writing and appending, if the file doesn't exist, the file will be created with the user-given name.
+- For read mode, if you attempt to access a file that doesn't exist, it will throw an error.
+- For unknown errors, fopen() returns NULL.
+- What are stdin, stdout and stderr?
+```
+When a C program is started, the operating system environment is responsible for opening three files and providing pointers for them. These files are the standard input, the standard output, and the standard error; the corresponding file pointers are called stdin, stdout, and stderr, and are declared in <stdio.h>.
+```
+- By default, stdin is connected to the keyboard and stdout and stderr are connected to the screen. 
+- stdin and stdout can be redirected to files or pipes.
+- fscanf and fprintf can be used to access the contents of a file using string formatting.
+- fclose() is used to break the connection between the FILE pointer and the external file. This frees the file pointer to access another file.
+- Most OS' have a limit on the number of files that can be accessed simultaneously by a program, so it's good practice to free the file pointers actively.
+- If a program terminates normally, then fclose() is called automatically on all open files.
+- To ensure a program terminates normally, even when catching errors, the exit() function should be used.
+- exit() calls fclose() for each open file automatically.
+- Within main, return expr is equivalent to exit(expr). exit has the advantage that it can be called from other functions.
+
+#### Chapter 8 - The UNIX System Interface
+
