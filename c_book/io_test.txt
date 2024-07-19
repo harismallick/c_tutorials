@@ -1,0 +1,10 @@
+This is line number: 1
+Line number using fprintf: 1
+This is line number: 2
+Line number using fprintf: 2
+This is line number: 3
+Line number using fprintf: 3
+This is line number: 4
+Line number using fprintf: 4
+This is line number: 5
+Line number using fprintf: 5

@@ -1,14 +1,23 @@
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define CHAR_SIZE 40
 
 int sum_nums(int count, ...);
 char *read_input(void);
+void write_file(const char *fname);
+void read_file(const char *fname);
 
 int main()
 {
     int sum_result = sum_nums(4, 5,6,7,8);
     printf("Sum: %d\n", sum_result);
-    read_input();
+    // read_input();
+    const char *fname = "io_test.txt";
+    write_file(fname);
+    read_file(fname);
     return 0;
 }
 // Variadic function example:
@@ -47,4 +56,54 @@ char *read_input(void)
     printf("Try again: ");
     scanf("%s %s", input, input2);
     printf("Your name: %s %s\n", input, input2);
+}
+
+void write_file(const char *fname)
+{
+    FILE *file;
+    file = fopen(fname, "w");
+    char string[CHAR_SIZE];
+    char *temp = (char *) malloc(2 * sizeof(char));
+    for (int i = 0; i < 5; i++)
+    {
+        // fputs for writing string to file:
+        strcpy(string, "This is line number: ");
+        int tt = i + 1;
+        *(temp) = (char) tt + '0'; // This only works for singe digits.
+        *(temp + 1) = '\0';
+        strcat(string, temp);
+        printf("%s\n", string);
+        strcat(string, "\n\0");
+        fputs(string, file);
+
+        // fprintf for writing line to file:
+        fprintf(file, "Line number using fprintf: %d\n", tt);
+
+        // Need to pick the write function for the job. 
+        // In this case, fprintf() makes more sense.
+    }
+    fclose(file);
+    free(temp);
+}
+
+void read_file(const char *fname)
+{
+    FILE *file;
+    file = fopen(fname, "r");
+    char *buffer = (char *) malloc(CHAR_SIZE * sizeof(char));
+    // while ((fgets(buffer, CHAR_SIZE, file)) != NULL)
+    // {
+    //     printf("%s", buffer);
+    // }
+    size_t bufsize = sizeof(buffer);
+    printf("Memory address of buffer: %p\n", &buffer);
+    printf("Memory address of buf_size: %p\n", &bufsize);
+
+    // getline() is different from fgets() because it requires passing the 
+    // actual memory addresses of the buffer pointer and sizeof buffer.
+    while ((getline(&buffer, &bufsize, file)) != EOF)
+        printf("%s", buffer);
+    fclose(file);
+    printf("\n");
+    free(buffer);
 }

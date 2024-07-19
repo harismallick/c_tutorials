@@ -744,6 +744,10 @@ When a C program is started, the operating system environment is responsible for
 - To ensure a program terminates normally, even when catching errors, the exit() function should be used.
 - exit() calls fclose() for each open file automatically.
 - Within main, return expr is equivalent to exit(expr). exit has the advantage that it can be called from other functions.
+- fgets(), fscanf(), getline(), getc() all have different arguments for reading tokenising and reading buffer from a file.
+- fgets() requires pointers to the FILE object and the malloc-ed buffer to store the input in.
+- getline() requires passing in the actual memory addresses of the assigned heap memory and the buffer size, but a pointer to the file.
+- Read the manual to understand the subtle differences between these different functions.
 
 #### Chapter 8 - The UNIX System Interface
 
