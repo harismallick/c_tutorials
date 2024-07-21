@@ -751,3 +751,48 @@ When a C program is started, the operating system environment is responsible for
 
 #### Chapter 8 - The UNIX System Interface
 
+- In the UNIX system, all IO is done by reading and/or writing files. 
+- All peripheral devices, including the screen, keyboard, etc are files within the UNIX file system.
+- A single homogenous interface handles all communication between a program and the peripherals.
+- Before reading or writing a file, the program must inform the system of its intent to do so. This process is opening the file.
+- The system will then check your access permissions for the file, and if everything checks out, the program will receive a file descriptor, which is a non-negative integer. 
+- Whenever the program needs to perform IO on the file, the file descriptor is used, rather than the name of the file.
+- All information about an open file is maintained by the system; the user program refers to the file only by the file descriptor.
+- As IO involving the keyboard and the screen are so common, the UNIX system opens 3 files by default whenever a program is run.
+- These 3 files have the file descriptors 0, 1, 2, which are the standard input, the standard output and standard error, respectively.
+- If a program without arguments, then depending on the program, either the keyboard or the cwd would be the standard input; the screen would be the stdout and stderr.
+- But the user of a program can redirect the stdin and stdout by specifiying files with the '<' and '>' symbols.
+```shell
+    program <input.file >output.file
+    # This tells UNIX to run program with the contents of the input file, and pipe the output to the output file.
+```
+- These symbols change the file linked to the file descriptors 0 and 1.
+- stderr typically still goes to the screen.
+- open() is similar to fopen(), but rather than returning a pointer to the FILE object, open returns the file descriptor integer.
+```C
+int open(char *name, int flags, int perms);
+// 3 possible flags:
+// O_RDONLY
+// O_WRONLY
+// O_RDWR
+// Read, write and read+write respectively.
+```
+- open() function is found in the fcntl.h library file.
+- Attempting to open a file that doesn't exist will result in an error.
+- The creat() function is used to create a files.
+- If the file already exists, this will not be treated as an error by creat. It will simply rewrite the old one.
+- There is a limit on the number of files that can be open simultaneously by a program at any given time. According to the book (written in the 1980s), this limit was 20 files.
+- But, with modern computers, the limit is 1024 simultaneous file descriptors. If this limit is exceeded, then any new processes and file descriptor assignments will be blocked.
+- The close() function takes the file descriptor as an argument and it breaks the connection between the open file and the fd.
+- This frees up the fd to be used for other files. This is why its important to always call close() or fclose() after IO operations on a file are complete.
+- Termination of a program via exit() or by successful execution of the main() function of the program results in all open files being automatically closed.
+
+***Lseek***
+- IO operations are typically sequential, making way through the file buffer by buffer or line by line.
+- When needed, files can also be read in any arbitrary order. This is done using the lseek() function.
+- lseek allows you to move around the file without any read-write operations.
+- lseek works by offsetting the position 'cursor' in the file to a user-defined location. The next read-write operation would begin from the pre-defined cursor position.
+- & operator has a lower precedence than == in C. So parentheses must be used if an operation with & is to be performed before a comparison with == operator.
+```C
+    if ((0x001))
+```
